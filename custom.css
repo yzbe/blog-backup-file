@@ -1,0 +1,71 @@
+/* 静态文件导入 自定义样式*/
+
+#theme-fukasawa .sideLeft hr{
+    opacity: .04;
+}
+.fa-info:before {
+    content: "\f05a";
+}
+
+/* =========================================
+   NotionNext 简单表格框线显示
+   原理：破解 display: block 导致的合并失效，并干掉外围包裹器
+   ========================================= */
+
+/* 1. 斩草除根：干掉最外层包裹器的多余游离线条和内边距 */
+.notion-simple-table-wrapper,
+.notion-table-view {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* 2. 拨乱反正：强制恢复标准表格属性，让“边框合并”重新生效 */
+.notion-simple-table {
+    display: table !important;            /* 绝对关键：打破 block 模式 */
+    border-collapse: collapse !important; /* 现在合并 100% 会生效了 */
+    width: 100% !important;
+    border: 1px solid #9ca3af !important; 
+    box-shadow: none !important;
+    margin: 0 !important;
+}
+
+/* 3. 剥离行边框，防止任何残留干扰 */
+.notion-simple-table tr,
+.notion-simple-table thead,
+.notion-simple-table tbody {
+    border: none !important;
+}
+
+/* 4. 给单元格画线，并控制紧凑留白 */
+.notion-simple-table th,
+.notion-simple-table td {
+    border: 1px solid #9ca3af !important;
+    padding: 8px 12px !important;
+    box-sizing: border-box !important;
+}
+
+/* 5. 夜间模式适配（半透明白） */
+.dark .notion-simple-table,
+.dark .notion-simple-table th,
+.dark .notion-simple-table td {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* =========================================
+   NotionNext 减小表格上下留白 (调整行高与内边距)
+   ========================================= */
+
+/* 1. 针对简单表格 (Simple Table) */
+.notion-simple-table th,
+.notion-simple-table td {
+    padding: 4px 8px !important; /* 核心逻辑：第一个值(4px)控制上下留白，第二个值(12px)控制左右留白 */
+    line-height: 1.5 !important;  /* 固定行高，防止多行文本过于松散 */
+}
+
+/* 2. 针对数据库表格 (Collection Table) */
+.notion-table-cell,
+.notion-table-view-header-cell-inner,
+.notion-table-cell-text {
+    padding: 4px 8px !important; 
+}
